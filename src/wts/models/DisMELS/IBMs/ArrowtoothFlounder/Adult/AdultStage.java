@@ -20,7 +20,6 @@ import wts.models.DisMELS.framework.*;
 import wts.models.DisMELS.framework.IBMFunctions.IBMFunctionInterface;
 import wts.models.utilities.CalendarIF;
 import wts.models.utilities.DateTimeFunctions;
-import wts.models.utilities.ModelCalendar;
 import wts.roms.model.LagrangianParticle;
 
 
@@ -596,7 +595,7 @@ public class AdultStage extends AbstractLHS {
      */
     private void initializeTimedependentVariables() {
         //temporarily set calendar time to variable time
-        CalendarIF cal = ModelCalendar.getCalendar();
+        CalendarIF cal = globalInfo.getCalendar();
         long modTime = cal.getTimeOffset();
         cal.setTimeOffset((long) time);
         dayOfYear = cal.getYearDay();
@@ -707,7 +706,7 @@ public class AdultStage extends AbstractLHS {
     @Override
     public void step(double dt) throws ArrayIndexOutOfBoundsException {
         //determine daytime/nighttime for vertical migration & calc indiv. W
-        dayOfYear = ModelCalendar.getCalendar().getYearDay();
+        dayOfYear = globalInfo.getCalendar().getYearDay();
 //        isDaytime = DateTimeFunctions.isDaylight(lon,lat,dayOfYear);
         isSpawningSeason = DateTimeFunctions.isBetweenDOY(dayOfYear,firstDayOfSpawning,firstDayOfSpawning+lengthOfSpawningSeason);
         if (isSpawningSeason) {
