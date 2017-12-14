@@ -1,22 +1,22 @@
 /*
- * AdultStageAttributes.java
+ * AbstractArrowtoothAttributes.java
  */
 
-package wts.models.DisMELS.IBMs.ArrowtoothFlounder.Adult;
+package wts.models.DisMELS.IBMs.ArrowtoothFlounder;
 
 import java.util.*;
-import java.util.logging.Logger;
-import org.openide.util.lookup.ServiceProvider;
 import wts.models.DisMELS.framework.AbstractLHSAttributes;
-import wts.models.DisMELS.framework.IBMAttributes.IBMAttribute;
-import wts.models.DisMELS.framework.IBMAttributes.IBMAttributeBoolean;
-import wts.models.DisMELS.framework.IBMAttributes.IBMAttributeDouble;
+import wts.models.DisMELS.framework.IBMAttributes.*;
+import wts.models.DisMELS.framework.LifeStageAttributesInterface;
+import wts.models.DisMELS.framework.Types;
 
 /**
- * DisMELS class representing attributes for arrowtooth flounder adults.
+ * Abstract class for DisMELS arrowtooth flounder larva, settler, and benthic 
+ * juvenile life stage attributes classes. These three classes all have the same 
+ * attributes, and so can extend this class rather simply.
  */
-@ServiceProvider(service=wts.models.DisMELS.framework.LifeStageAttributesInterface.class)
-public class AdultStageAttributes extends AbstractLHSAttributes {
+public abstract class AbstractArrowtoothAttributes extends AbstractLHSAttributes {
+    
     //NEW attributes defined by this class
     /** key for the attribute reflecting whether individual is attached to bottom (="attached") */
     public static final String PROP_attached    = "attached";
@@ -24,15 +24,13 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
     public static final String PROP_size        = "size (cm)";
     /** key for the attribute reflecting individual weight (="weight (kg)") */
     public static final String PROP_weight      = "weight (kg)";
-    /** key for the attribute reflecting gonad stage (="gonad stage") */
-    public static final String PROP_gonadStage  = "gonad stage";
     /** key for attribute reflecting in situ "temperature" (="temperature deg C") */
     public static final String PROP_temperature = "temperature deg C";
     /** key for attribute reflecting in situ "salinity" (="salinity") */
     public static final String PROP_salinity    = "salinity";
     
     /** Number of attributes defined by this class (including typeName) */
-    public static final int numNewAttributes = 6;
+    public static final int numNewAttributes = 5;
     /** Total number of attributes defined by this class */
     public static final int numAttributes = AbstractLHSAttributes.numAttributes+numNewAttributes;
     
@@ -48,53 +46,22 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
     protected static final Class[]  classes    = new Class[numAttributes];
     /** array of Strings to be used as short names for attributes */
     protected static final String[] shortNames = new String[numAttributes];
-   
-    /** logger for debugging messages */
-    private static final Logger logger = Logger.getLogger(AdultStageAttributes.class.getName());
-    
-    /**
-     * This constructor is provided only to facilitate the ServiceProvider functionality.
-     * DO NOT USE IT!!
+
+    /** 
+     * Assigns the life stage type name to the constructed subclass instance and adds
+     * the attribute keys and information defined in this class to the static Set "keys" 
+     * and the static Map mapAttributes.
+     * 
+     * Subclasses should call this constructor with a valid life stage type name from
+     * all constructors to set the type name.  They should then 
+     * 
+     *@param typeName - the type name as a String.
      */
-    public AdultStageAttributes(){
-        super("NULL");
-        finishInstantiation();
-    }
-    
-    /**
-     * Creates a new attributes instance with type name 'typeName'.
-     */
-    public AdultStageAttributes(String typeName) {
+    protected AbstractArrowtoothAttributes(String typeName) {
         super(typeName);
         finishInstantiation();
     }
-    
-    /**
-     * Returns a deep copy of the instance.  Values are copied.  
-     * Any listeners on 'this' are not(?) copied, so these need to be hooked up.
-     * @return - the clone.
-     */
-    @Override
-    public Object clone() {
-        AdultStageAttributes clone = new AdultStageAttributes(typeName);
-        for (String key: keys) clone.setValue(key,this.getValue(key));
-        return clone;
-    }
 
-    /**
-     * Returns a new instance constructed from the values of the string[].
-     * The first value in the string vector must be the type name.
-     * Values are set internally by calling setValues(strv) on the new instance.
-     * @param strv - vector of values (as Strings) 
-     * @return - the new instance
-     */
-    @Override
-    public AdultStageAttributes createInstance(final String[] strv) {
-        AdultStageAttributes atts = new AdultStageAttributes(strv[0]);//this sets atts.typeName
-        atts.setValues(strv);
-        return atts;
-    }
-    
     private void finishInstantiation(){
         if (newKeys.isEmpty()){
             //set static field information
@@ -104,7 +71,6 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
             key = PROP_attached;   newKeys.add(key); mapAttributes.put(key,new IBMAttributeBoolean(key,"attached"));
             key = PROP_size;       newKeys.add(key); mapAttributes.put(key,new IBMAttributeDouble(key,"size"));
             key = PROP_weight;     newKeys.add(key); mapAttributes.put(key,new IBMAttributeDouble(key,"weight"));
-            key = PROP_gonadStage; newKeys.add(key); mapAttributes.put(key,new IBMAttributeDouble(key,"gonadStage"));
             key = PROP_temperature;newKeys.add(key); mapAttributes.put(key,new IBMAttributeDouble(key,"temperature"));
             key = PROP_salinity;   newKeys.add(key); mapAttributes.put(key,new IBMAttributeDouble(key,"salinity"));
             keys.addAll(newKeys);//add new keys from this class
@@ -118,24 +84,23 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
         tmpMapValues.put(PROP_attached,   new Boolean(true));
         tmpMapValues.put(PROP_size,       new Double(0));
         tmpMapValues.put(PROP_weight,     new Double(0));
-        tmpMapValues.put(PROP_gonadStage, new Double(0));
         tmpMapValues.put(PROP_temperature,new Double(-1));
         tmpMapValues.put(PROP_salinity,   new Double(-1));
         mapValues = tmpMapValues;//assign to super
     }
 
     /**
-     * Returns the attribute values as an ArrayList (including typeName).
-     * 
-     * @return 
+     *  This method should be overridden by extending classes.
      */
     @Override
-    public ArrayList getArrayList() {
-        ArrayList a = super.getArrayList();
-        for (String key: newKeys) a.add(getValue(key));
-        return a;
-    }
+    public abstract LifeStageAttributesInterface createInstance(final String[] strv);
 
+    /**
+     *  This method should be overridden by extending classes.
+     */
+    @Override
+    public abstract Object clone() throws CloneNotSupportedException;
+    
     /**
      * Returns the attributes values (not including typeName) as an Object[].
      * 
@@ -152,45 +117,14 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
     }
     
     /**
-     * Returns a CSV string representation of the attribute values.
+     * Returns keys for all attributes excluding typeName as a String[]
+     * in the order the keys are defined.
      * 
-     *@return - CSV string attribute values
+     * @return 
      */
     @Override
-    public String getCSV() {
-        String str = super.getCSV();//get string from superclass
-        Iterator<String> it = newKeys.iterator();
-        while (it.hasNext()) str = str+cc+getValueAsString(it.next());//add new attributes
-        return str;
-    }
-                
-    /**
-     * Returns the comma-delimited string corresponding to the attributes
-     * to be used as a header for a csv file.  
-     * Use getCSV() to get the string of actual attribute values.
-     *
-     *@return - String of CSV header names
-     */
-    @Override
-    public String getCSVHeader() {
-        String str = super.getCSVHeader();//get header from superclass
-        Iterator<String> it = newKeys.iterator();
-        while (it.hasNext()) str = str+cc+it.next();//add new attributes
-        return str;
-    }
-                
-    /**
-     * Returns the comma-delimited string corresponding to the attributes
-     * to be used as a header for a csv file.  
-     *
-     *@return - String of CSV header names (short style)
-     */
-    @Override
-    public String getCSVHeaderShortNames() {
-        String str = super.getCSVHeaderShortNames();//get names from superclass
-        Iterator<String> it = newKeys.iterator();
-        while (it.hasNext()) str = str+cc+mapAttributes.get(it.next()).shortName;//add names for new attributes
-        return str;
+    public String[] getKeys() {        
+        return aKeys;
     }
 
     /**
@@ -208,17 +142,6 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
             }
         }
         return classes;
-    }
-
-    /**
-     * Returns keys for all attributes excluding typeName as a String[]
-     * in the order the keys are defined.
-     * 
-     * @return 
-     */
-    @Override
-    public String[] getKeys() {        
-        return aKeys;
     }
 
     /**
@@ -292,22 +215,61 @@ public class AdultStageAttributes extends AbstractLHSAttributes {
             throw ex;
         }
     }
-    
+
+    /**
+     * Gets type name and attribute values as an ArrayList.  Subclasses should 
+     * override this method. The overriding method can call super.getArrayList()
+     * to return an ArrayList of the correct size and with the values filled in
+     * for the attributes defined in this class.
+     * 
+     * @return - the array list.
+     */
     @Override
-    public String getValueAsString(String key){
-        Object val = getValue(key);
-        IBMAttribute att = mapAttributes.get(key);
-        att.setValue(val);
-        String str = att.getValueAsString();
-        return str;
+    public ArrayList getArrayList() {
+        ArrayList a = super.getArrayList();
+        for (String key: newKeys) a.add(getValue(key));
+        return a;
     }
     
+    /**
+     * Returns a CSV string representation of the attribute values.
+     * 
+     *@return - CSV string attribute values
+     */
     @Override
-    public void setValueFromString(String key, String value) throws NumberFormatException {
-        if (!key.equals(PROP_typeName)){
-            IBMAttribute att = mapAttributes.get(key);
-            att.parseValue(value);
-            setValue(key,att.getValue());
-        }
+    public String getCSV() {
+        String str = super.getCSV();//get string from superclass
+        Iterator<String> it = newKeys.iterator();
+        while (it.hasNext()) str = str+cc+getValueAsString(it.next());//add new attributes
+        return str;
+    }
+                
+    /**
+     * Returns the comma-delimited string corresponding to the attributes
+     * to be used as a header for a csv file.  
+     * Use getCSV() to get the string of actual attribute values.
+     *
+     *@return - String of CSV header names
+     */
+    @Override
+    public String getCSVHeader() {
+        String str = super.getCSVHeader();//get header from superclass
+        Iterator<String> it = newKeys.iterator();
+        while (it.hasNext()) str = str+cc+it.next();//add new attributes
+        return str;
+    }
+                
+    /**
+     * Returns the comma-delimited string corresponding to the attributes
+     * to be used as a header for a csv file.  
+     *
+     *@return - String of CSV header names (short style)
+     */
+    @Override
+    public String getCSVHeaderShortNames() {
+        String str = super.getCSVHeaderShortNames();//get names from superclass
+        Iterator<String> it = newKeys.iterator();
+        while (it.hasNext()) str = str+cc+mapAttributes.get(it.next()).shortName;//add names for new attributes
+        return str;
     }
 }

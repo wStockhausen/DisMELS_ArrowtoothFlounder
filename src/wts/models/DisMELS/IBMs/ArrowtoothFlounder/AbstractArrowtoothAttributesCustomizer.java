@@ -1,25 +1,23 @@
 /*
- * LarvaStageAttributesCustomizer.java
- *
- * Created on January 12, 2006, 4:20 PM
+ * AbstractArrowtoothAttributesCustomizer.java
  */
 
-package wts.models.DisMELS.IBMs.ArrowtoothFlounder.Larva;
+package wts.models.DisMELS.IBMs.ArrowtoothFlounder;
 
 import wts.models.DisMELS.framework.*;
 import wts.models.DisMELS.gui.AttributesCustomizer;
 
 /**
- * @author William Stockhausen
+ * Customizer for AbstractArrowtoothAttributes classes.
  */
-public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
+public class AbstractArrowtoothAttributesCustomizer extends AttributesCustomizer {
 
-    private LarvaStageAttributes attributes = null;
+    private AbstractArrowtoothAttributes attributes = null;
     
     /**
-     * Creates new customizer LarvaStageAttributesCustomizer
+     * Creates new customizer
      */
-    public LarvaStageAttributesCustomizer() {
+    public AbstractArrowtoothAttributesCustomizer() {
         initComponents();
     }
     
@@ -32,8 +30,9 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        czrStandardAttributes = new wts.models.DisMELS.gui.AbstractLHSAttributes2Customizer();
+        czrStandardAttributes = new wts.models.DisMELS.gui.AbstractLHSAttributesCustomizer();
         jPanel2 = new javax.swing.JPanel();
+        jcbAttached = new javax.swing.JCheckBox();
         jtfSize = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jtfWeight = new javax.swing.JTextField();
@@ -47,6 +46,13 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional attributes"));
+
+        jcbAttached.setText("attached?");
+        jcbAttached.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAttachedActionPerformed(evt);
+            }
+        });
 
         jtfSize.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jtfSize.setText("0");
@@ -81,10 +87,15 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
                 .add(jtfWeight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(jcbAttached)
+                .add(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
+                .add(jcbAttached)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jtfSize, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1))
@@ -92,7 +103,7 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jtfWeight, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel2))
-                .add(67, 67, 67))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -108,23 +119,30 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
         attributes.setValue(attributes.PROP_weight,n);
     }//GEN-LAST:event_jtfWeightActionPerformed
 
+    private void jcbAttachedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAttachedActionPerformed
+        Boolean b = new Boolean(jcbAttached.isSelected());
+        attributes.setValue(attributes.PROP_attached,b);
+    }//GEN-LAST:event_jcbAttachedActionPerformed
+
     @Override
     public void setObject(Object bean) {
-        if (bean instanceof LarvaStageAttributes) {
-            setAttributes((LarvaStageAttributes) bean);
+        if (bean instanceof AbstractArrowtoothAttributes) {
+            setAttributes((AbstractArrowtoothAttributes) bean);
         }
     }
     
     @Override
-    public LarvaStageAttributes getAttributes() {
+    public AbstractArrowtoothAttributes getAttributes() {
         return attributes;
     }
     
     @Override
     public void setAttributes(LifeStageAttributesInterface newAtts) {
-        if (newAtts instanceof LarvaStageAttributes) {
-            attributes = (LarvaStageAttributes) newAtts;
+        if (newAtts instanceof AbstractArrowtoothAttributes) {
+            attributes = (AbstractArrowtoothAttributes) newAtts;
             czrStandardAttributes.setObject(attributes);
+            Boolean b = null;
+            jcbAttached.setSelected(attributes.getValue(attributes.PROP_attached,b).booleanValue());
             Double d = null;
             jtfSize.setText(attributes.getValue(attributes.PROP_size,d).toString());
             jtfWeight.setText(attributes.getValue(attributes.PROP_weight,d).toString());
@@ -144,11 +162,12 @@ public class LarvaStageAttributesCustomizer extends AttributesCustomizer {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private wts.models.DisMELS.gui.AbstractLHSAttributes2Customizer czrStandardAttributes;
+    private wts.models.DisMELS.gui.AbstractLHSAttributesCustomizer czrStandardAttributes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JCheckBox jcbAttached;
     private javax.swing.JTextField jtfSize;
     private javax.swing.JTextField jtfWeight;
     // End of variables declaration//GEN-END:variables

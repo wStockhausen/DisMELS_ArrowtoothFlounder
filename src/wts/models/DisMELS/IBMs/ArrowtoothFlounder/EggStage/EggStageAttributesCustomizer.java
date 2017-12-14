@@ -32,8 +32,9 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        czrStandardAttributes = new wts.models.DisMELS.gui.AbstractLHSAttributes2Customizer();
+        czrStandardAttributes = new wts.models.DisMELS.gui.AbstractLHSAttributesCustomizer();
         jPanel2 = new javax.swing.JPanel();
+        jcbAttached = new javax.swing.JCheckBox();
         jtfDevStage = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jtfDiameter = new javax.swing.JTextField();
@@ -49,6 +50,13 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Additional attributes"));
+
+        jcbAttached.setText("attached?");
+        jcbAttached.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAttachedActionPerformed(evt);
+            }
+        });
 
         jtfDevStage.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jtfDevStage.setText("0");
@@ -86,21 +94,29 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
-                .add(jtfDevStage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(jtfDiameter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(jtfDensity, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jcbAttached)
+                        .add(0, 274, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jtfDiameter, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jtfDensity, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jtfDevStage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                .add(jcbAttached)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jtfDevStage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1))
@@ -111,7 +127,8 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jtfDensity, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel3)))
+                    .add(jLabel3))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -132,6 +149,11 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
         attributes.setValue(attributes.PROP_density,n);
     }//GEN-LAST:event_jtfDensityActionPerformed
 
+    private void jcbAttachedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAttachedActionPerformed
+        Boolean b = new Boolean(jcbAttached.isSelected());
+        attributes.setValue(attributes.PROP_attached,b);
+    }//GEN-LAST:event_jcbAttachedActionPerformed
+
     @Override
     public void setObject(Object bean) {
         if (bean instanceof EggStageAttributes) {
@@ -149,6 +171,8 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
         if (newAtts instanceof EggStageAttributes) {
             attributes = (EggStageAttributes) newAtts;
             czrStandardAttributes.setObject(attributes);
+            Boolean b = null;
+            jcbAttached.setSelected(attributes.getValue(attributes.PROP_attached,b).booleanValue());
             Double d = null;
             jtfDevStage.setText(attributes.getValue(attributes.PROP_devStage,d).toString());
             jtfDiameter.setText(attributes.getValue(attributes.PROP_diameter,d).toString());
@@ -169,12 +193,13 @@ public class EggStageAttributesCustomizer extends AttributesCustomizer {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private wts.models.DisMELS.gui.AbstractLHSAttributes2Customizer czrStandardAttributes;
+    private wts.models.DisMELS.gui.AbstractLHSAttributesCustomizer czrStandardAttributes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JCheckBox jcbAttached;
     private javax.swing.JTextField jtfDensity;
     private javax.swing.JTextField jtfDevStage;
     private javax.swing.JTextField jtfDiameter;

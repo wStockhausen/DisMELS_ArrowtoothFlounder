@@ -441,20 +441,20 @@ public class SettlerStage extends AbstractLHS {
     @Override
     public List<LifeStageInterface> getMetamorphosedIndividuals(double dt) {
         output.clear();
-        LifeStageInterface nLHS = null;
+        List<LifeStageInterface> nLHSs = null;
         //if total depth is appropriate for settlement and 
         //indiv is near the bottom, then settle and transform to next stage.
         if (debugOps) logger.info("minDepth,totDepth,maxDepth,depth = "+minSettlementDepth+","+totalDepth+","+maxSettlementDepth+","+depth);
         if ((minSettlementDepth<=totalDepth)&&(totalDepth<=maxSettlementDepth)&&
                 (depth>(totalDepth-5))) {
-            nLHS = createNextLHS();
-            if (nLHS!=null) output.add(nLHS);
+            nLHSs = createMetamorphosedIndividuals();
+            if (nLHSs!=null) output.addAll(nLHSs);
         }
         return output;
     }
 
-    private LifeStageInterface createNextLHS() {
-        LifeStageInterface nLHS = null;
+    private List<LifeStageInterface> createMetamorphosedIndividuals() {
+        List<LifeStageInterface> nLHSs = null;
         try {
             //create LHS with "next" stage
             if (isSuperIndividual) {
@@ -468,7 +468,7 @@ public class SettlerStage extends AbstractLHS {
                  *          5) set number in new LHS to numTrans for current LHS
                  *          6) reset numTrans in current LHS
                  */
-                nLHS = LHS_Factory.createNextLHSFromSuperIndividual(typeName,this,numTrans);
+                nLHSs = LHS_Factory.createNextLHSsFromSuperIndividual(typeName,this,numTrans);
                 numTrans = 0.0;//reset numTrans to zero
             } else {
                 /** 
@@ -482,14 +482,14 @@ public class SettlerStage extends AbstractLHS {
                  *          4) copy current LHS origID to new LHS origID
                  *          5) kill current LHS
                  */
-                nLHS = LHS_Factory.createNextLHSFromIndividual(typeName,this);
+                nLHSs = LHS_Factory.createNextLHSsFromIndividual(typeName,this);
                 alive  = false; //allow only 1 transition, so kill this stage
                 active = false; //set stage inactive, also
             }
         } catch (IllegalAccessException | InstantiationException ex) {
             ex.printStackTrace();
         }
-        return nLHS;
+        return nLHSs;
     }
 
     /**
@@ -659,7 +659,7 @@ public class SettlerStage extends AbstractLHS {
             * (if lat*declination>0, it's summer in the hemisphere, hence daytime). 
             * Alternatively, if the solar zenith angle > 90.833 deg, then it is night.
             */
-            double[] ss = DateTimeFunctions.computeSunriseSunset(lon,lat,globalInfo.getCalendar().getYearDay());
+            double[] ss = DateTimeFunctions.computeSunriseSunset(lon,lat,GlobalInfo.getInstance().getCalendar().getYearDay());
             /**
             * @param vars - the inputs variables as a double[] array with elements
             *                  dt          - [0] - integration time step
