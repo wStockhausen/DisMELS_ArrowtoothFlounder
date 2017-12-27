@@ -8,12 +8,47 @@ import java.util.*;
 import wts.models.DisMELS.framework.AbstractLHSAttributes;
 import wts.models.DisMELS.framework.IBMAttributes.*;
 import wts.models.DisMELS.framework.LifeStageAttributesInterface;
-import wts.models.DisMELS.framework.Types;
 
 /**
  * Abstract class for DisMELS arrowtooth flounder larva, settler, and benthic 
  * juvenile life stage attributes classes. These three classes all have the same 
  * attributes, and so can extend this class rather simply.
+ * <p>
+ * The new attributes and keys defined by this abstract class are:
+ * <ul>
+ *  <li> attached - "attached"
+ *  <li> size - "size (cm)"
+ *  <li> weight - "weight (kg)"
+ *  <li> temperature - "temperature deg C"
+ *  <li> salinity - "salinity"
+ * </ul>
+* <p>
+ * The complete list of attributes and keys for this abstract class are (in order):
+ * <ul>
+ *  <li> typeName - "Life stage type name"
+ *  <li> id - "ID"
+ *  <li> parentID - "Parent ID"
+ *  <li> origID - "Original ID"
+ *  <li> startTime - "Start tie (s)"
+ *  <li> time - "Time (s)"
+ *  <li> horizType - "Horiz. position type"
+ *  <li> vertType - "Vert. position type"
+ *  <li> horizPos1 - "Horiz. position 1"
+ *  <li> horizPos2 - "Horiz. position 2"
+ *  <li> vertPos - "Vert. position"
+ *  <li> gridCellID - "Grid Cell ID"
+ *  <li> track - "track"
+ *  <li> active - "Active status"
+ *  <li> alive - "Alive status"
+ *  <li> age - "Age (d)"
+ *  <li> ageInStage - "Age in stage (d)"
+ *  <li> number - "Number of individuals"
+ *  <li> attached - "attached"
+ *  <li> size - "size (cm)"
+ *  <li> weight - "weight (kg)"
+ *  <li> temperature - "temperature deg C"
+ *  <li> salinity - "salinity"
+ * </ul>
  */
 public abstract class AbstractArrowtoothAttributes extends AbstractLHSAttributes {
     
