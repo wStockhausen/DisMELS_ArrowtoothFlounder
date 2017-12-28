@@ -1,6 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * EggDevelopmentFunction.java
  */
 package wts.models.DisMELS.IBMs.ArrowtoothFlounder.EggStage;
 
@@ -13,26 +12,33 @@ import wts.models.DisMELS.framework.IBMFunctions.IBMFunctionInterface;
 import wts.models.DisMELS.framework.IBMFunctions.IBMGrowthFunctionInterface;
 
 /**
- * This class provides an implementation of a linear growth function.
- * Type: 
- *      Individual growth function
+ * This class provides an implementation of an egg development function for arrowtooth flounder.
+ * <p>
+ * Type:
+ * <ul><li>Individual growth function</ul>
  * Parameters (by key):
- *      tCoeff  - Double  - temperature coefficient
- *      useNomT - Boolean - flag to use nominal temperature (instead of in situ T)
- *      nomT    - Double  - nominal temperature to use
- *      sigRate - Double - std. deviation in random component to development ([1/[time])
+ * <ul>
+ *  <li> tCoeff  - Double  - temperature coefficient
+ *  <li> useNomT - Boolean - flag to use nominal temperature (instead of in situ T)
+ *  <li> nomT    - Double  - nominal temperature to use
+ *  <li> sigRate - Double - std. deviation in random component to development ([1/[time])
+ * </ul>
  * Variables:
- *      vars - double[]{dt,z0}.
- *      dt - double - time interval   (hours)
- *      s0 - double - egg stage at time t0 ([dev. stage 1-19])
- *      T  - double - environmental temperature (deg C)
+ * <ul>
+ *  <li> vars - double[]{dt,z0}.
+ *  <li> dt - double - time interval   (hours)
+ *  <li> s0 - double - egg stage at time t0 ([dev. stage 1-19])
+ *  <li> T  - double - environmental temperature (deg C)
+ * </ul>
  * Value:
- *      s(dt) - Double - egg stage at time t+dt
+ * <ul><li>s(dt) - Double - egg stage at time t+dt</ul>
  * Calculation:
- *      eps   = N(0,sigRate) [random draw from a normal distribution)
- *      rate  = exp(r0[s0]+tCoeff*T+eps);
- *      z(dt) = z0 + dt*rate;
- *      whwere r0[] is an array of ln-scale development rates at T=0 C.
+ * <ul>
+ *  <li> eps   = N(0,sigRate) [random draw from a normal distribution)
+ *  <li> rate  = exp(r0[s0]+tCoeff*T+eps);
+ *  <li> z(dt) = z0 + dt*rate;
+ *  <li> whwere r0[] is an array of ln-scale development rates at T=0 C.
+ * </ul>
  * 
  * @author William.Stockhausen
  */
