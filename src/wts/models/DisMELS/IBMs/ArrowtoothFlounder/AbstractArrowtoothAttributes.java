@@ -307,4 +307,34 @@ public abstract class AbstractArrowtoothAttributes extends AbstractLHSAttributes
         while (it.hasNext()) str = str+cc+mapAttributes.get(it.next()).shortName;//add names for new attributes
         return str;
     }
+    
+    /**
+     * Returns the value, as a string, of the attribute associated with a key.
+     * 
+     * @param key - String associated with the attribute of interest
+     * @return - the value, as a string, of the attribute associated with the key
+     */
+    @Override
+    public String getValueAsString(String key){
+        Object val = getValue(key);
+        IBMAttribute att = mapAttributes.get(key);
+        att.setValue(val);
+        String str = att.getValueAsString();
+        return str;
+    }
+    
+    /**
+     * Sets the value, from a string, of the attribute associated with a key.
+     * 
+     * @param key - String associated with the attribute of interest
+     * @param value - the value, as a string, for the attribute associated with the key
+     */
+    @Override
+    public void setValueFromString(String key, String value) throws NumberFormatException {
+        if (!key.equals(PROP_typeName)){
+            IBMAttribute att = mapAttributes.get(key);
+            att.parseValue(value);
+            setValue(key,att.getValue());
+        }
+    }
 }
